@@ -1,8 +1,9 @@
 <template>
-	<div class="container">
+	<div>
 		<app-header></app-header>
-		<side-bar></side-bar>    
-		<slot/>
+		<div class="container-fluid">
+			<slot/>	
+		</div>
 	</div>
 </template>
 <script>

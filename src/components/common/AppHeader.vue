@@ -1,32 +1,76 @@
 <template>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">금방</a>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+		<a class="navbar-brand" href="/">금방</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="#">About 금방 <span class="sr-only">(current)</span></a>
+				<li class="nav-item">
+					<button class="btn btn-link" type="button" data-toggle="collapse" 
+						data-target="#sub-about" aria-expanded="false" aria-controls="collapseOne">
+						About Keumbang
+					</button>
+					<div id="sub-about" class="collapse">
+						<ul class="nav flex-column">
+							<li class="nav-link"><router-link :to="'about'">About Keumbang</router-link></li>
+							<li class="nav-link">Services</li>
+							<li class="nav-link">Contacts</li>
+						</ul>
+					</div>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">시세</a>
+					<button class="btn btn-link" type="button" data-toggle="collapse" 
+						data-target="#sub-market" aria-expanded="false" aria-controls="collapseOne">
+						금방 거래소
+					</button>
+					<div id="sub-market" class="collapse">
+						<ul class="nav flex-column">
+							<li class="nav-link"><router-link :to="'market'">금화 구매</router-link></li>
+							<li class="nav-link"><router-link :to="'withdraw'">금화 인출</router-link></li>
+							<li class="nav-link" disabled>금방 장터(준비중)</li>
+						</ul>
+					</div>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">고객센터</a>
+					<button class="btn btn-link" type="button" data-toggle="collapse" 
+						data-target="#sub-accounts" aria-expanded="false" aria-controls="collapseOne">
+						지갑관리
+					</button>
+					<div id="sub-accounts" class="collapse">
+						<ul class="nav flex-column">
+							<li class="nav-link"><router-link :to="'wallets'">계좌 관리</router-link></li>
+							<li class="nav-link"><router-link :to="'wallets-history'">거래 내역</router-link></li>
+						</ul>
+					</div>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">로그인</a>
+					<router-link :to="'mypage'"><button class="btn btn-link my-2 my-sm-0">마이페이지</button></router-link>
 				</li>
-				<li>
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">이체/결제</button>
+				<li class="nav-item">
+					<button class="btn btn-link my-2 my-sm-0 text-dark" href="" v-if="isAuthenticated" @click.prevent="onClickLogout">로그아웃</button>
+				</li>
+				<li class="nav-item">
+					<router-link :to="'transfer'"><button class="btn btn-outline-success my-2 my-sm-0">송금하기</button></router-link>
 				</li>
 			</ul>
 		</div>
 	</nav>
 </template>
 <script>
+import store from '@/store/'
 export default {
-	name:'AppHeader'
+	name:'AppHeader',
+	computed: {
+      isAuthenticated() {
+        return store.getters.isAuthenticated
+      }
+    },
+    methods: {
+      onClickLogout() {
+        // LOGOUT 변이 실행 후 리다이렉트 
+        store.dispatch('LOGOUT').then(() => this.$router.push('/'))
+      }
+    }
 }
 </script>
