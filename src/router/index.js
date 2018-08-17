@@ -2,20 +2,21 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store'
 import About from '@/components/about/About'
+import AboutService from '@/components/about/AboutService'
 import UserInfo from '@/components/mypage/UserInfo'
-import WalletsList from '@/components/wallet/WalletsList'
+import Wallets from '@/components/wallet/Wallets'
+import DepositKRW from '@/components/wallet/components/DepositKRW'
 import WalletsHistory from '@/components/wallet/WalletsHistory'
-import Transfer from '@/components/wallet/Transfer'
-import Market from '@/components/market/GoldMarket'
-import Withdraw from '@/components/market/GoldWithdraw'
+import TransferGold from '@/components/wallet/components/TransferGold'
+import TransferTxFee from '@/components/wallet/components/TransferTxFee'
+import GoldMarket from '@/components/market/GoldMarket'
+import TokenMarket from '@/components/market/TokenMarket'
+import WithdrawGold from '@/components/wallet/components/WithdrawGold'
+import WithdrawKRW from '@/components/wallet/components/WithdrawKRW'
 import MainPage from '@/components/main/MainPage'
-
 import Login from '@/components/main/Login'
+import Register from '@/components/main/RegisterPage'
 
-// import About from '@/components/temp/About'
-// import Remittance from '@/components/temp/Remittance'
-// import Market from '@/components/temp/Market'
-// import Wallets from '@/components/temp/Wallets'
 
 
 const requireAuth = (path) => (to, from, next) => {
@@ -40,49 +41,39 @@ const router = new Router({
       name: 'Login',
       alias: '/',
       component: Login,
-      meta: { layout: 'main-page-layout-login' }
+      meta: { layout: 'main-page-layout' }
+    }, {
+      path: '/register',
+      name: 'Register',
+      alias: '/',
+      component: Register,
+      meta: { layout: 'main-page-layout' }
     }, {
       path: '/about',
       name: 'about',
       component: About,
       meta: { layout: 'main-page-layout' }
-    // }, {
-    //   path: '/about2',
-    //   name: 'About2',
-    //   component: About,
-    //   meta: { layout: 'main-page-layout-submenu' }
-    // }, {
-    //   path: '/remittance',
-    //   name: 'Remittance',
-    //   component: Remittance,
-    //   meta: { layout: 'main-page-layout' }
     }, {
-      path: '/market',
-      name: 'market',
-      component: Market,
-      meta: { layout: 'main-page-layout-login' },
-      beforeEnter: requireAuth('market')
+      path: '/about-service',
+      name: 'about-service',
+      component: AboutService,
+      meta: { layout: 'main-page-layout' }
     }, {
-      path: '/withdraw',
-      name: 'withdraw',
-      component: Withdraw,
-      meta: { layout: 'main-page-layout-login' },
-      beforeEnter: requireAuth('withdraw')
-    // }, {
-    //   path: '/wallet',
-    //   name: 'wallets',
-    //   component: Wallets,
-    //   meta: { layout: 'main-page-layout' }
+      path: '/gold-market',
+      name: 'gold-market',
+      component: GoldMarket,
+      meta: { layout: 'main-page-layout-chart' },
+      beforeEnter: requireAuth('gold-market')
     }, {
-      path: '/mypage',
-      name: 'mypage',
-      component: UserInfo,
-      meta: { layout: 'my-page-layout' },
-      beforeEnter: requireAuth('mypage')
+      path: '/token-market',
+      name: 'token-market',
+      component: TokenMarket,
+      meta: { layout: 'main-page-layout-chart' },
+      beforeEnter: requireAuth('token-market')
     }, {
       path: '/wallets',
       name: 'wallets',
-      component: WalletsList,
+      component: Wallets,
       meta: { layout: 'wallet-layout' },
       beforeEnter: requireAuth('wallets')
     }, {
@@ -92,11 +83,41 @@ const router = new Router({
       meta: { layout: 'wallet-layout' },
       beforeEnter: requireAuth('wallets-history')
     }, {
-      path: '/transfer',
-      name: 'transfer',
-      component: Transfer,
+      path: '/deposit-krw',
+      name: 'deposit-KRW',
+      component: DepositKRW,
       meta: { layout: 'wallet-layout' },
-      beforeEnter: requireAuth('transfer')
+      beforeEnter: requireAuth('deposit-krw')
+    }, {
+      path: '/withdraw-krw',
+      name: 'withdraw-KRW',
+      component: WithdrawKRW,
+      meta: { layout: 'wallet-layout' },
+      beforeEnter: requireAuth('deposit-krw')
+    }, {
+      path: '/transfer-gold',
+      name: 'transferGold',
+      component: TransferGold,
+      meta: { layout: 'wallet-layout' },
+      beforeEnter: requireAuth('transfer-gold')
+    }, {
+      path: '/withdraw-gold',
+      name: 'withdraw-gold',
+      component: WithdrawGold,
+      meta: { layout: 'main-page-layout' },
+      beforeEnter: requireAuth('withdraw-gold')
+    }, {
+      path: '/transfer-txfee',
+      name: 'transfer-TxFee',
+      component: TransferTxFee,
+      meta: { layout: 'wallet-layout' },
+      beforeEnter: requireAuth('transfer-txfee')
+    }, {
+      path: '/mypage',
+      name: 'mypage',
+      component: UserInfo,
+      meta: { layout: 'my-page-layout' },
+      beforeEnter: requireAuth('mypage')
     }
   ]
 })

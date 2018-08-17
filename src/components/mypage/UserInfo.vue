@@ -72,7 +72,6 @@ import EditUserProfile from '@/components/mypage/components/ProfileEdit'
 import Membership from '@/components/mypage/components/Membership'
 import Service from '@/components/mypage/components/Service'
 import UserLogs from '@/components/mypage/components/History'
-
 export default {
   components: { UserProfile, EditUserProfile, Membership, Service, UserLogs }
 }

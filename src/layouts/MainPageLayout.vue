@@ -1,6 +1,6 @@
 <template>
-    <div>
-		<app-header v-if="isAuthenticated" />
+  <div>
+		<app-header/>
 		<slot/>
 	</div>    
 </template>
@@ -8,11 +8,6 @@
 import store from '@/store/'
 import AppHeader from '@/components/common/AppHeader.vue';
 export default {
-	components: { AppHeader },
-	computed: {
-      isAuthenticated() {
-        return store.getters.isAuthenticated
-      }
-    }
+	components: { AppHeader }
 }
 </script>

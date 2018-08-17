@@ -2,7 +2,7 @@
     <div class="container">
         <div class="jumbotron bg-white">
             <h2 class="display-4 text-warning">About 금방Keumbang</h2>
-            <p class="text-right"><router-link to="router.back">Back</router-link></p>
+            <p class="text-right"><button class="btn text-warning btn-link" @click="$router.go(-1)">Back</button></p>
             <hr class="my-4">
             <p>금방 플랫폼에서는 개인 고객은 물론 소/도매, 제조, 유통 및 기업 고객을 대상으로 다양한 편의와 서비스를 제공할 것입니다.</p>
             <div class="card w-80">
