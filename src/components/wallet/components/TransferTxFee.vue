@@ -12,19 +12,19 @@
                         <div class="form-group row">
                             <label for="ownedKRW" class="col-sm-2 col-form-label text-warning">보유 KRW/현금</label>
                             <div class="col-sm-2 row">
-                                <p class="w-75 my-auto text-left">{{ wallets.krw }}</p>
+                                <p class="w-75 my-auto text-left">{{ formatPrice(wallets.krw) }}</p>
                             </div>
                             <label for="ownedGT" class="col-sm-2 col-form-label text-warning">보유 Gold 토큰</label>
                             <div class="col-sm-2 row">
-                                <p class="w-75 my-auto text-left">{{ wallets.gt }}</p>
+                                <p class="w-75 my-auto text-left">{{ formatPrice(wallets.gt) }}</p>
                             </div>
                             <label for="ownedTxFee" class="col-sm-2 col-form-label text-warning">보유 TxFee 토큰</label>
                             <div class="col-sm-2 row">
-                                <p class="w-75 my-auto text-left">{{ wallets.tx }}</p>
+                                <p class="w-75 my-auto text-left">{{ formatPrice(wallets.tx) }}</p>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputAmounts" class="col-sm-2 col-form-label">보낼 Gold 토큰 개수</label>
+                            <label for="inputAmounts" class="col-sm-2 col-form-label">보낼 TxFee 토큰 개수</label>
                             <div class="col-sm-10 row">
                                 <input v-model="tokens" type="text" class="form-control w-75" id="inputAmounts" placeholder="송금할 Gold 토큰 개수 입력">
                             </div>
@@ -77,7 +77,7 @@
                                             결제 수수료
                                             (<span v-if="payment == 'krw'">KRW/현금</span>
                                             <span v-if="payment == 'tx'">TxFee 토큰</span>
-                                            결제): {{ fee }}
+                                            결제): {{ formatPrice(fee) }}
                                         </p>
                                         거래 승인 요청 중입니다.
                                     </div>
@@ -99,7 +99,7 @@
 import store from '@/store/'
 var tokens, receiver, payment, fee, krw, gt, tx
 var wallets = { krw, gt, tx }
-var data  = { wallets,  tokens, receiver, payment, fee }
+var data  = { wallets,  tokens:0, receiver, payment, fee:0 }
 export default {
   data() {
     return data
@@ -134,7 +134,10 @@ export default {
            sessionStorage.krw -= this.fee
         else if(this.payment == 'tx')  
            sessionStorage.tx -= this.fee
-      }
+      },
+        formatPrice(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
   }
 }
 </script>

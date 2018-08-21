@@ -13,11 +13,11 @@
                     <div class="row">
                         <label for="ownedKRW" class="col-sm-2 col-form-label text-warning">보유 KRW/현금</label>
                         <div class="col-sm-2 row">
-                            <p class="w-75 my-auto text-left">{{ wallets.krw }}</p>
+                            <p class="w-75 my-auto text-left" id="myKrw">{{ formatPrice(wallets.krw) }}</p>
                         </div>
                         <label for="ownedGT" class="col-sm-2 col-form-label text-warning">보유 Gold 토큰</label>
                         <div class="col-sm-2 row">
-                            <p class="w-75 my-auto text-left">{{ wallets.gt }}</p>
+                            <p class="w-75 my-auto text-left" id="myGt">{{ wallets.gt }}</p>
                         </div>
                         <label for="ownedTxFee" class="col-sm-2 col-form-label text-warning">보유 TxFee 토큰</label>
                         <div class="col-sm-2 row">
@@ -29,9 +29,9 @@
                     <!-- Transaction contents -->
                     <form class="">
                         <div class="form-group row">
-                            <label for="inputAmounts" class="col-sm-2 col-form-label">구매할 금화</label>
+                            <label for="inputAmounts" class="col-sm-2 col-form-label">구매할 Gold 토큰 수량</label>
                             <div class="col-sm-10">
-                                <input v-model="tokens" type="text" class="form-control w-75" id="inputAmounts" placeholder="구매할 금화 입력">
+                                <input v-model="tokens" type="text" class="form-control w-75" id="inputAmounts" placeholder="구매할 Gold 토큰 수량 입력">
                             </div>
                         </div>
                         <fieldset class="form-group">
@@ -56,7 +56,7 @@
                         <div class="form-group text-center">
                             <!-- <button type="submit" class="btn btn-primary">보내기</button> -->
                             <!-- 버튼-모달 이벤트 : 확인 메세지 -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @click="cal()">
                                     보내기
                                 </button>
                         </div>
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="container row px-0 mx-auto">
-                <table class="table text-center col table-hover">
+                <table class="table text-center col table-hover" style="width:50%">
                     <thead>
                         <tr>
                             <th colspan="2" class="bg-danger text-light">매도</th>
@@ -76,24 +76,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr @click="" >
-                            <td class="text-danger">43333</td>
+                        <tr @click="buyGold($event)" data-toggle="modal" data-target="#exampleModal">
+                            <td class="text-danger">43,333</td>
                             <td class="text-danger">20</td>
                             
                         </tr>
-                        <tr>
-                            <td class="text-danger">44500</td>
+                        <tr @click="buyGold($event)" data-toggle="modal" data-target="#exampleModal">
+                            <td class="text-danger">44,500</td>
                             <td class="text-danger">18</td>
                             
                         </tr>
-                        <tr>
-                            <td class="text-danger">44550</td>
+                        <tr @click="buyGold($event)" data-toggle="modal" data-target="#exampleModal">
+                            <td class="text-danger">44,550</td>
                             <td class="text-danger">12</td>
                            
                         </tr>
                     </tbody>
                 </table>
-                <table class="table text-center col table-hover">
+                <table class="table text-center col table-hover" style="width:50%">
                     <thead>
                         <tr>
                             <th colspan="2" class="bg-info text-light">매수</th>
@@ -104,16 +104,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="text-info">38000</td>
+                        <tr @click="sellGold($event)" data-toggle="modal" data-target="#exampleModal">
+                            <td class="text-info">38,000</td>
                             <td class="text-info">10</td>
                         </tr>
-                        <tr>
-                            <td class="text-info">37280</td>
+                        <tr @click="sellGold($event)" data-toggle="modal" data-target="#exampleModal">
+                            <td class="text-info">37,280</td>
                             <td class="text-info">18</td>
                         </tr>
-                        <tr>
-                            <td class="text-info">37080</td>
+                        <tr @click="sellGold($event)" data-toggle="modal" data-target="#exampleModal">
+                            <td class="text-info">37,080</td>
                             <td class="text-info">17</td>
                         </tr>
                     </tbody>
@@ -121,7 +121,7 @@
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                    <div class="modal-content" id="modalTrue" style="display:none;">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">금방</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -129,8 +129,8 @@
                             </button>
                         </div>
                         <div class="modal-body text-center">
-                            <b class="text-warning">{{ user.name }}님</b>의 금화 계좌로 
-                            <b class="text-warning">금화 {{ tokens }}개</b> 입금이 완료되었습니다.
+                            <b class="text-warning">{{ user.name }}님</b>의 Gold 토큰 계좌로 
+                            <b class="text-warning">Gold 토큰 {{ tokens }}개</b> 입금이 완료되었습니다.
                             <hr>
                             <p class="mute">(구매 수수료: {{ fee }}{{ payment }})</p>
                             <p class="mute">총 결제금액: ₩ {{ formatPrice(total) }}</p>
@@ -139,6 +139,54 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
                         </div>
                     </div>
+                    <div class="modal-content" id="modalFalse" style="display:none;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">금방</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <b class="text-warning">{{ user.name }}님</b>의 보유 현금이 부족합니다.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+                        </div>
+                    </div>    
+                    <div class="modal-content" id="selModal" style="display:none;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">금방</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center" id="selModalTrue">
+                            Gold 토큰을 판매했습니다.
+                        </div>                        
+                        <div class="modal-body text-center" id="selModalFalse">
+                            보유하고 있는 Gold 토큰이 부족합니다.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+                        </div>
+                    </div> 
+                    <div class="modal-content" id="buyModal" style="display:none;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">금방</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center" id="buyModalTrue">
+                            Gold 토큰을 구입했습니다.
+                        </div>                        
+                        <div class="modal-body text-center" id="buyModalFalse">
+                            보유하고 있는 현금이 부족합니다.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+                        </div>
+                    </div>                                                            
                 </div>
             </div>
             <!-- 버튼-모달 이벤트 : 확인 메세지 END -->
@@ -151,7 +199,7 @@ import Chart from '@/components/market/components/MarketChart'
 import store from '@/store/'
 var tokens, receiver, payment, fee, krw, gt, tx
 var wallets = { krw, gt, tx }
-var data  = { wallets, tokens, receiver, payment, fee, user: { addr: 'RDUpHlh1P1EuQnJXkUWn', name : '금방 관리자', krw : '250000', gt : '50', tx : '50' } }
+var data  = { wallets, tokens:0, receiver, payment, fee, user: { addr: 'RDUpHlh1P1EuQnJXkUWn', name : '금방 관리자', krw : '250000', gt : '50', tx : '50' }, modalPossible: true, modalShow: false }
 export default {
     components: {
         'market-chart': Chart
@@ -161,7 +209,7 @@ export default {
     },
     computed: {
         total : function() {
-            return this.tokens * 4200
+            return this.tokens * 42000
         }
     },
     created() {
@@ -172,14 +220,75 @@ export default {
         }
     },
     methods: {
+        cal(){
+            var krw = this.formatNum($("#myKrw").text())
+            if(krw < Number(this.tokens) * 42000){
+                $("#modalTrue").hide();
+                $("#selModal").hide();
+                $("#modalFalse").show();                
+            }else{
+                sessionStorage.gt = parseInt(sessionStorage.gt) + Number(this.tokens)
+                sessionStorage.krw = Number(sessionStorage.krw) - Number(this.tokens) * 42000
+                $("#myGt").text(this.formatPrice(this.formatNum($("#myGt").text())+this.formatNum(this.tokens)))
+                $("#myKrw").text(this.formatPrice(this.formatNum($("#myKrw").text()) - this.formatNum(this.tokens) * 42000))
+                $("#modalTrue").show();
+                $("#modalFalse").hide();
+                $("#selModal").hide();
+            }            
+            
+            $("#selModal").hide(); $("#selModalTrue").hide(); $("#selModalFalse").hide(); 
+            $("#buyModal").hide(); $("#buyModalTrue").hide(); $("#buyModalFalse").hide(); 
+        },
+        sellGold(e){
+            var price = this.formatNum($(e.currentTarget).find("td").eq(0).text());
+            var num = this.formatNum($(e.currentTarget).find("td").eq(1).text());
+
+            if(this.formatNum($("#myGt").text()) < this.formatNum(num)){
+                $("#modalTrue").hide();
+                $("#modalFalse").hide();
+                $("#buyModal").hide();
+                $("#selModal").show(); $("#selModalTrue").hide(); $("#selModalFalse").show(); 
+            }else{
+                sessionStorage.gt = Number(sessionStorage.gt) - num
+                sessionStorage.krw = Number(sessionStorage.krw) + num * price
+                $("#myKrw").text(this.formatPrice(this.formatNum($("#myKrw").text())+(num*price)))
+                $("#myGt").text(this.formatPrice(this.formatNum($("#myGt").text())-(num)))
+                $(e.currentTarget).remove()
+
+                $("#modalTrue").hide();
+                $("#modalFalse").hide();
+                $("#buyModal").hide();
+                $("#selModal").show(); $("#selModalTrue").show(); $("#selModalFalse").hide(); 
+            }
+        },
+        buyGold(e){
+            var price = this.formatNum($(e.currentTarget).find("td").eq(0).text());
+            var num = this.formatNum($(e.currentTarget).find("td").eq(1).text());
+
+            console.log(this.formatNum($("#myKrw").text()) , this.formatNum(price*num))
+            if(this.formatNum($("#myKrw").text()) < this.formatNum(price*num)){
+                $("#modalTrue").hide();
+                $("#modalFalse").hide();
+                $("#selModal").hide();
+                $("#buyModal").show(); $("#buyModalTrue").hide(); $("#buyModalFalse").show(); 
+            }else{
+                sessionStorage.gt = Number(sessionStorage.gt) + num
+                sessionStorage.krw = Number(sessionStorage.krw) - num * price
+                $("#myKrw").text(this.formatPrice(this.formatNum($("#myKrw").text())-(num*price)))
+                $("#myGt").text(this.formatPrice(this.formatNum($("#myGt").text())+(num)))
+                $(e.currentTarget).remove()
+
+                $("#modalTrue").hide();
+                $("#modalFalse").hide();
+                $("#selModal").hide();
+                $("#buyModal").show(); $("#buyModalTrue").show(); $("#buyModalFalse").hide(); 
+            }
+        },        
         formatPrice(value) {
             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         },
-        submit(){
-            if(this.payment == 'krw')
-                this.fee = this.tokens * 42000 * 0.01
-            else if(this.payment == 'tx')
-                this.fee = this.tokens * 42000 * 0.00001
+        formatNum(value){
+            return Number(value.toString().replace(/,/gi,""))
         }
     }
 }

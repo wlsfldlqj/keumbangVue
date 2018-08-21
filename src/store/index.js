@@ -161,19 +161,26 @@ export default new Vuex.Store({
       })
     },
     GET_WALLETS({commit}){
-      axios.defaults.headers.common['x-access-token'] = sessionStorage.accessToken 
-      return axios.get(`${resourceHostWallets}/`+sessionStorage._addr)
-      .then(res => {
-        if(res.data.success){
-          let wallets = {
-            "addr": res.data.data.addr,
-            "krw": res.data.data.krw,
-            "gt": res.data.data.gt,
-            "tx": res.data.data.tx
-          }
-          commit('GET_WALLETS', wallets)
-        }
-      })
+      let wallets = {
+        "addr": sessionStorage.walletsAddr,
+        "krw": sessionStorage.krw,
+        "gt": sessionStorage.gt,
+        "tx": sessionStorage.tx
+      }
+      commit('GET_WALLETS', wallets)
+      // // axios.defaults.headers.common['x-access-token'] = sessionStorage.accessToken 
+      // // return axios.get(`${resourceHostWallets}/`+sessionStorage._addr)
+      // // .then(res => {
+      // //   if(res.data.success){
+      // //     let wallets = {
+      // //       "addr": res.data.data.addr,
+      // //       "krw": res.data.data.krw,
+      // //       "gt": res.data.data.gt,
+      // //       "tx": res.data.data.tx
+      // //     }
+      // //     commit('GET_WALLETS', wallets)
+      // //   }
+      // })
     },
     GET_ACCOUNT({commit}){
       axios.defaults.headers.common['x-access-token'] = sessionStorage.accessToken 
@@ -211,6 +218,7 @@ export default new Vuex.Store({
           console.log(data)
           // commit('OPEN_ACCOUNT', data)
           commit('OPEN_ACCOUNT', true)
+          
         }
       })
     },

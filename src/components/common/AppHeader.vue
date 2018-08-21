@@ -54,7 +54,7 @@
 					<button class="btn btn-link my-2 my-sm-0 text-dark" v-else><router-link :to ="'login'">로그인</router-link>/<router-link :to ="'register'">회원가입</router-link></button>
 				</li>
 				<li class="nav-item">
-					<router-link :to="'transfer-gold'"><button class="btn btn-outline-success my-2 my-sm-0">송금하기</button></router-link>
+					<router-link :to="'transfer'"><button class="btn btn-outline-success my-2 my-sm-0">송금하기</button></router-link>
 				</li>
 				<li class="nav-item" v-if="isRequested">
 					<router-link :to="'list-payments'">

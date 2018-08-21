@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  created(){
+  mounted(){
     var chart = AmCharts.makeChart( "chartdiv", {
       "type": "stock",
       "theme": "light",

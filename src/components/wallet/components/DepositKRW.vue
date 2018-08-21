@@ -13,7 +13,7 @@
                             <label for="ownedKRW" class="col-sm-2 col-form-label text-warning">보유 KRW/현금</label>
                             <div class="col-sm-10">
                                 <div class="col-sm-2 row ">
-                                    <p class="w-75 my-auto text-left">{{ wallets.krw }}</p>
+                                    <p class="w-75 my-auto text-left">{{ formatPrice(wallets) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -41,9 +41,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body text-center">
-                                    {{ user.name }}님의 KRW지갑으로 {{ deposit }}원 입금 완료되었습니다.
+                                    {{ user.name }}님의 KRW지갑으로 {{ formatPrice(deposit) }}원 입금 완료되었습니다.
                                     <hr>
-                                    입금 후 KRW 계좌 잔액: ₩{{ total }}
+                                    입금 후 KRW 계좌 잔액: ₩{{ formatPrice(total) }}
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
@@ -61,25 +61,30 @@
 <script>
 var deposit, payment, total
 var user = [];
-var wallets = [];
-var data  = { deposit, user, payment, wallets, total}
+var wallets;
+var data  = { deposit:0, user, payment, wallets, total:0}
 export default {
     data() {
         return data
     },
-    created: {
-
-    },
     mounted() {
         if(this.$store.getters.isEstablished){
-            this.wallets.krw = sessionStorage.krw
+            this.$store.dispatch('GET_WALLETS')
+            .then(()=> {
+                this.wallets = sessionStorage.krw
+            })
         }
+        else
+            this.wallets = sessionStorage.krw
         if(this.$store.getters.getInfo == null){
           this.$store.dispatch('LOAD')
           .then(()=> {
               this.user = this.$store.getters.getInfo
           })
-      }
+        }
+        else
+            this.user = this.$store.getters.getInfo
+        // console.log(this.wallets)
     },
     methods: {
         submit() {
@@ -89,7 +94,11 @@ export default {
                 this.wallets.krw = sessionStorage.krw
             )
             this.wallets.krw = sessionStorage.krw
+        },
+        formatPrice(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
+
     }
 }
 </script>

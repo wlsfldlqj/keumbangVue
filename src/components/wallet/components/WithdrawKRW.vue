@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="jumbotron bg-white">
-            <h2 class="display-4 text-warning">현금 KRW 인출하기</h2>
+            <h2 class="display-4 text-warning">현금 KRW 출금하기</h2>
             <p class="text-right"><button class="btn text-warning btn-link" @click="$router.go(-1)">Back</button></p>
             <hr class="my-4">
             <p>보유하신 현금(KRW)를 가상계좌로 인출하세요.</p>
@@ -12,7 +12,7 @@
                         <div class="form-group row">
                             <label for="inputAmounts" class="col-sm-2 col-form-label">보유 KRW 금액</label>
                             <div class="col-sm-10">
-                                <p class="text-left">{{ wallets.krw }}</p>
+                                <p class="text-left">{{ formatPrice(wallets) }}</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -24,7 +24,7 @@
                         <div class="form-group form-check">
                             <label class="form-check-label">
                                 <input class="form-check-input" type="checkbox" name="form-post-get" 
-                                id="check_withdraw_fee" value="1000">
+                                id="check_withdraw_fee">
                                 KRW 1000원이 수수료로 지불됩니다.
                             </label>
                         </div>
@@ -43,9 +43,9 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                {{ user.name }}님의 KRW지갑에서 {{ total }}원(수수료 {{ fee }}원 포함)이 인출 완료되었습니다.
+                                                {{ user.name }}님의 KRW지갑에서 {{ formatPrice(withdraw+fee) }}원(수수료 {{ formatPrice(fee) }}원 포함)이 인출 완료되었습니다.
                                                 <hr>
-                                                인출 후 KRW 계좌 잔액: ₩{{ total }}
+                                                인출 후 KRW 계좌 잔액: ₩{{ formatPrice(total) }}
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
@@ -65,30 +65,43 @@
 <script>
 var withdraw, fee, total
 var user = [];
-var wallets = [];
-var data  = { withdraw, fee : 1000, total, user, wallets }
+var wallets;
+var data  = { withdraw: 0, fee : 1000, total: 0, user, wallets: 0 }
 export default {
     data() {
         return data
     },
     mounted() {
         if(this.$store.getters.isEstablished){
-            this.wallets.krw = sessionStorage.krw
+            this.$store.dispatch('GET_WALLETS')
+            .then(()=> {
+                this.wallets = sessionStorage.krw
+            })
         }
+        else
+            this.wallets = sessionStorage.krw
         if(this.$store.getters.getInfo == null){
           this.$store.dispatch('LOAD')
           .then(()=> {
               this.user = this.$store.getters.getInfo
           })
-      }
+        }
+        else
+            this.user = this.$store.getters.getInfo
+        // console.log(this.wallets)
     },
     methods: {
         submit() {
-            this.total = parseInt(this.wallets.krw) - parseInt(this.withdraw) - parseInt(this.fee)
+            this.total = parseInt(this.wallets) - parseInt(this.withdraw) - parseInt(this.fee)
             this.$store.dispatch('WITHDRAW_KRW',  (parseInt(this.withdraw) + parseInt(this.fee)) )
-            .then(()=> 
-                this.wallets.krw = sessionStorage.krw
-            )
+            .then(()=> {
+                sessionStorage.krw = this.total
+                this.wallets = sessionStorage.krw
+            })
+        }
+        ,
+        formatPrice(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
     }
 }

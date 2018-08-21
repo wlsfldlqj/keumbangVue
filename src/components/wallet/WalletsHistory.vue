@@ -9,110 +9,90 @@
                 <div class="card-body text-center">
                     <v-app id="inspire">
                         <div>
-                        <v-toolbar flat color="white">
-                            <v-spacer></v-spacer>
-                            <v-dialog v-model="dialog" max-width="500px">
-                                <v-btn slot="activator" color="primary" dark class="mb-2">New Item</v-btn>
-                                <v-card>
-                                    <v-card-title>
-                                    <span class="headline">{{ formTitle }}</span>
-                                    </v-card-title>
-                                    <v-card-text>
-                                        <v-container grid-list-md>
-                                            <v-layout wrap>
-                                            <v-flex xs12 sm6 md4>
-                                                <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
-                                            </v-flex>
-                                            <v-flex xs12 sm6 md4>
-                                                <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                                            </v-flex>
-                                            <v-flex xs12 sm6 md4>
-                                                <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                                            </v-flex>
-                                            <v-flex xs12 sm6 md4>
-                                                <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                                            </v-flex>
-                                            <v-flex xs12 sm6 md4>
-                                                <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                                            </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card-text>
-                        
-                                    <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-                                    <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
-                        </v-toolbar>
-                        <v-data-table
-                            :headers="headers"
-                            :items="desserts"
-                            hide-actions
-                            class="elevation-1"
-                        >
-                            <template slot="items" slot-scope="props">
-                            <td>{{ props.item.name }}</td>
-                            <td class="text-xs-right">{{ props.item.date }}</td>
-                            <td class="text-xs-right">{{ props.item.calories }}</td>
-                            <td class="text-xs-right">{{ props.item.fat }}</td>
-                            <td class="text-xs-right">{{ props.item.carbs }}</td>
-                            <td class="text-xs-right">{{ props.item.protein }}</td>
-                            <td class="text-xs-right">{{ props.item.settlement }}</td>
-                            <td class="text-xs-right">{{ props.item.status }}</td>
-                            <td class="justify-center layout px-0">
-                                <v-icon
-                                small
-                                class="mr-2"
-                                @click="editItem(props.item)"
-                                >
-                                edit
-                                </v-icon>
-                                <v-icon
-                                small
-                                @click="deleteItem(props.item)"
-                                >
-                                delete
-                                </v-icon>
-                            </td>
-                            </template>
-                            <template slot="no-data">
-                            <v-btn color="primary" @click="initialize">Reset</v-btn>
-                            </template>
-                        </v-data-table>
+                          <!-- <v-toolbar flat color="white">
+                              <v-spacer></v-spacer>
+                              <v-dialog v-model="dialog" max-width="500px">
+                                  <v-btn slot="activator" color="primary" dark class="mb-2">New Item</v-btn>
+                                  <v-card>
+                                      <v-card-title>
+                                      <span class="headline">{{ formTitle }}</span>
+                                      </v-card-title>
+                                      <v-card-text>
+                                          <v-container grid-list-md>
+                                              <v-layout wrap>
+                                              <v-flex xs12 sm6 md4>
+                                                  <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                                              </v-flex>
+                                              <v-flex xs12 sm6 md4>
+                                                  <v-text-field v-model="editedItem.date" label="거래 시각"></v-text-field>
+                                              </v-flex>
+                                              <v-flex xs12 sm6 md4>
+                                                  <v-text-field v-model="editedItem.contract_type" label="거래 구분"></v-text-field>
+                                              </v-flex>
+                                              <v-flex xs12 sm6 md4>
+                                                  <v-text-field v-model="editedItem.concluded_price" label="체결 금액 (₩)"></v-text-field>
+                                              </v-flex>
+                                              <v-flex xs12 sm6 md4>
+                                                  <v-text-field v-model="editedItem.trading_price" label="거래 금액 (₩)"></v-text-field>
+                                              </v-flex>
+                                              <v-flex xs12 sm6 md4>
+                                                  <v-text-field v-model="editedItem.fee" label="수수료 (₩)"></v-text-field>
+                                              </v-flex>
+                                              <v-flex xs12 sm6 md4>
+                                                  <v-text-field v-model="editedItem.settlement" label="정산금액 (₩)"></v-text-field>
+                                              </v-flex>
+                                              <v-flex xs12 sm6 md4>
+                                                  <v-text-field v-model="editedItem.status" label="거래 상태"></v-text-field>
+                                              </v-flex>
+                                              </v-layout>
+                                          </v-container>
+                                      </v-card-text>
+                          
+                                      <v-card-actions>
+                                      <v-spacer></v-spacer>
+                                      <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
+                                      <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
+                                      </v-card-actions>
+                                  </v-card>
+                              </v-dialog>
+                          </v-toolbar> -->
+                          <v-data-table
+                              :headers="headers"
+                              :items="desserts"
+                              hide-actions
+                              class="elevation-1"
+                          >
+                              <template slot="items" slot-scope="props">
+                              <td>{{ props.item.name }}</td>
+                              <td class="text-xs-right">{{ props.item.date }}</td>
+                              <td class="text-xs-right">{{ props.item.contract_type }}</td>
+                              <td class="text-xs-right">{{ props.item.concluded_price }}</td>
+                              <td class="text-xs-right">{{ props.item.trading_price }}</td>
+                              <td class="text-xs-right">{{ props.item.fee }}</td>
+                              <td class="text-xs-right">{{ props.item.settlement }}</td>
+                              <td class="text-xs-right">{{ props.item.status }}</td>
+                              <td class="justify-center layout px-0">
+                                  <v-icon
+                                  small
+                                  class="mr-2"
+                                  @click="editItem(props.item)"
+                                  >
+                                  edit
+                                  </v-icon>
+                                  <v-icon
+                                  small
+                                  @click="deleteItem(props.item)"
+                                  >
+                                  delete
+                                  </v-icon>
+                              </td>
+                              </template>
+                              <template slot="no-data">
+                              <v-btn color="primary" @click="initialize">Reset</v-btn>
+                              </template>
+                          </v-data-table>
                         </div>
                     </v-app>
-                <!-- <table class="table table-hover table-borderless align-middle">
-                        <thead>
-                            <tr class="table-dark">
-                                <th scope="col">거래시각</th>
-                                <th scope="col">코드#</th>
-                                <th scope="col">거래 구분</th>
-                                <th scope="col">거래 수량</th>
-                                <th scope="col">체결 가격</th>
-                                <th scope="col">거래 금액</th>
-                                <th scope="col">수수료</th>
-                                <th scope="col">정산 금액</th>
-                                <th scope="col">상태</th>
-                                <th scope="col"><button class="btn btn-outline-dark text-white">입출금 계좌 관리</button></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td scope="col"></td>
-                                <td scope="col"></td>
-                                <td scope="col"></td>
-                                <td scope="col"></td>
-                                <td scope="col"></td>
-                                <td scope="col"></td>
-                                <td scope="col"></td>
-                                <td scope="col"></td>
-                                <td scope="col"></td>
-                            </tr>
-                        </tbody>
-                    </table> -->
                 </div>
             </div>
         </div>
@@ -128,37 +108,37 @@ export default {
             {
                 text: '거래내역 (Contracts History)',
                 align: 'center',
-                sortable: false,
+                sortable: true,
                 value: 'contract id'
             },
             { text: '거래 시각', value: 'date' },
             { text: '거래 구분', value: 'contract_type' },
             { text: '체결 가격', value: 'concluded_price' },
             { text: '거래 금액', value: 'trading_price' },
-            { text: '수수료 ()', value: 'fee' },
+            { text: '수수료(₩)', value: 'fee' },
             { text: '정산 금액', value: 'settlement' },
             { text: '상태', value: 'status' },
-            { text: 'Actions', value: 'name', sortable: false }
+            { text: 'Actions', value: 'actions', sortable: false }
         ],
         desserts: [],
         editedIndex: -1,
         editedItem: {
             name: '',
             date: '',
-            calories: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
+            contract_type: 0,
+            concluded_price: 0,
+            trading_price: 0,
+            fee: 0,
             settlement: 0,
             status: ''
         },
         defaultItem: {
             name: '',
             date: '',
-            calories: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
+            contract_type: 0,
+            concluded_price: 0,
+            trading_price: 0,
+            fee: 0,
             settlement: 0,
             status: ''
         }
@@ -176,7 +156,7 @@ export default {
         }
     },
 
-    created () {
+    mounted () {
         this.initialize()
     },
 
@@ -184,104 +164,64 @@ export default {
         initialize () {
         this.desserts = [
             {
-            name: '#10',
-            date: '2018-08-08',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            settlement: 0,
-            status: 'true'
+              name: '#6',
+              date: '2018-08-09',
+              contract_type: 'Gold 토큰 인출 신청',
+              concluded_price: 42090,
+              trading_price: 420900,
+              fee: 4209,
+              settlement: 4209,
+              status: '완료'
             },
             {
-            name: '#9',
-            date: '2018-08-08',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            settlement: 0,
-            status: 'true'
+              name: '#5',
+              date: '2018-08-09',
+              contract_type: 'Gold 토큰 구매',
+              concluded_price: 42090,
+              trading_price: 420900,
+              fee: 4209,
+              settlement: 425109,
+              status: '완료'
             },
             {
-            name: '#8',
-            date: '2018-08-08',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            settlement: 0,
-            status: 'true'
+              name: '#4',
+              date: '2018-08-09',
+              contract_type: 'KRW/현금 입금',
+              concluded_price: 0,
+              trading_price: 300000,
+              fee: 0,
+              settlement: 300000,
+              status: '완료'
             },
             {
-            name: '#7',
-            date: '2018-08-08',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            settlement: 0,
-            status: 'true'
+              name: '#3',
+              date: '2018-08-08',
+              contract_type: 'Gold 토큰 판매',
+              concluded_price: 42800,
+              trading_price: 128400,
+              fee: 0,
+              settlement: 128400,
+              status: '완료'
             },
             {
-            name: '#6',
-            date: '2018-08-08',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            settlement: 0,
-            status: 'true'
+              name: '#2',
+              date: '2018-08-08',
+              contract_type: 'Gold 토큰 구매',
+              concluded_price: 42000,
+              trading_price: 126000,
+              fee: 1260,
+              settlement: 127260,
+              status: '완료'
             },
             {
-            name: '#5',
-            date: '2018-08-08',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            settlement: 0,
-            status: 'true'
-            },
-            {
-            name: '#4',
-            date: '2018-08-08',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            settlement: 0,
-            status: 'true'
-            },
-            {
-            name: '#3',
-            date: '2018-08-08',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            settlement: 0,
-            status: 'true'
-            },
-            {
-            name: '#2',
-            date: '2018-08-08',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            settlement: 0,
-            status: 'true'
-            },
-            {
-            name: '#1',
-            date: '2018-08-08',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            settlement: 0,
-            status: 'true'
+              name: '#1',
+              date: '2018-08-08',
+              contract_type: 'KRW/현금 입금',
+              concluded_price: 0,
+              trading_price: 200000,
+              fee: 0,
+              settlement: 200000,
+              status: '완료'
             }
         ]
         },

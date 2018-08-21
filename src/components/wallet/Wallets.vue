@@ -65,7 +65,10 @@ export default {
     methods: {
         openAccounts: function() {
             this.$store.dispatch('OPEN_ACCOUNT')
-            .then(() => isEstablished())
+            .then(() => {
+                isEstablished()
+                this.$store.dispatch('GET_ACCOUNT')
+            })
             .catch(({message}) => this.msg = message)
         },
         closeAccounts: function() {

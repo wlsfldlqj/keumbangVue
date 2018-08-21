@@ -95,11 +95,11 @@ const router = new Router({
       meta: { layout: 'wallet-layout' },
       beforeEnter: requireAuth('deposit-krw')
     }, {
-      path: '/transfer-gold',
+      path: '/transfer',
       name: 'transferGold',
       component: TransferGold,
       meta: { layout: 'wallet-layout' },
-      beforeEnter: requireAuth('transfer-gold')
+      beforeEnter: requireAuth('transfer')
     }, {
       path: '/withdraw-gold',
       name: 'withdraw-gold',

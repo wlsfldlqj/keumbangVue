@@ -15,10 +15,9 @@
                 <tbody>
                     <tr>
                         <th scope="row">대한민국 원<p class="display-10">KRW</p></th>
-                        <td>{{ wallets.krw }}</td>
+                        <td>{{ formatPrice(wallets.krw) }}</td>
                         <td>0</td>
-                        <td>{{ wallets.krw }}</td>
-                        <!-- <td>10000</td> -->
+                        <td>{{ formatPrice(wallets.krw) }}</td>
                         <td>
                             <button class="btn btn-link"><router-link :to="'deposit-krw'">입금</router-link></button>
                             <button class="btn btn-link"><router-link :to="'withdraw-krw'">출금</router-link></button>
@@ -42,11 +41,11 @@
                 <tbody>
                     <tr>
                         <th scope="row">Gold Token<p class="display-10">GT</p></th>
-                        <td>{{ wallets.gt }}</td>
+                        <td>{{ formatPrice(wallets.gt) }}</td>
                         <td>0</td>
-                        <td>{{ wallets.gt }}</td>
+                        <td>{{ formatPrice(wallets.gt) }}</td>
                         <td>
-                            <button class="btn btn-link"><router-link :to="'transfer-gold'">송금</router-link></button>
+                            <button class="btn btn-link"><router-link :to="'transfer'">송금</router-link></button>
                             <button class="btn btn-link"><router-link :to="'gold-market'">구매</router-link></button>
                             <button class="btn btn-link"><router-link :to="'withdraw-gold'">인출</router-link></button>
                             <!-- <button class="btn btn-link" href="#">자세히</button> -->
@@ -54,9 +53,9 @@
                     </tr>
                     <tr>
                         <th scope="row">TxFee<p class="display-10">TF</p></th>
-                        <td>{{ wallets.tx }}</td>
+                        <td>{{ formatPrice(wallets.tx) }}</td>
                         <td>0</td>
-                        <td>{{ wallets.tx }}</td>
+                        <td>{{ formatPrice(wallets.tx) }}</td>
                         <td>
                             <button class="btn btn-link"><router-link :to="'transfer-txfee'">송금</router-link></button>
                             <button class="btn btn-link"><router-link :to="'token-market'">구매</router-link></button>
@@ -78,6 +77,7 @@ export default {
           wallets : []
       }
   },
+
   mounted() {
       if(this.$store.getters.isEstablished){
           this.$store.dispatch('GET_WALLETS')
@@ -90,6 +90,11 @@ export default {
               }
           })
       }
+  },
+  methods: {
+        formatPrice(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
   }
 }
 </script>

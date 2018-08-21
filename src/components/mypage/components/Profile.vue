@@ -36,12 +36,15 @@ export default {
     }
   },
   mounted() {
+      console.log(this.$store.getters.getInfo)
       if(this.$store.getters.getInfo == null){
           this.$store.dispatch('LOAD')
           .then(()=> {
-              this.user = this.$store.getters.getInfo
+              return this.user = this.$store.getters.getInfo
           })
       }
+      else
+          return this.user = this.$store.getters.getInfo
   },
   method: {
 
